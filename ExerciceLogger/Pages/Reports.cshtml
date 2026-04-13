@@ -1,0 +1,32 @@
+﻿@page
+@model ExerciceLogger.Pages.ReportsModel
+@{
+}
+
+<div>
+    <h1>Exercice Reports</h1>
+</div>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(Model => Model.Reports.ExerciceTypes![0].Type)</th>
+                <th>@Html.DisplayNameFor(Model => Model.Reports.FirstDates)</th>
+                <th>@Html.DisplayNameFor(Model => Model.Reports.LastDates)</th>
+                <th>@Html.DisplayNameFor(Model => Model.Reports.ExerciceTypes![0].Reps)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(int i = 0;i < Model.Reports.ExerciceTypes!.Count; i++)
+            {
+                <tr>
+                    <td class="index-data-row">@Html.DisplayFor(Model => Model.Reports.ExerciceTypes![i].Type)</td>
+                    <td class="index-data-row">@Model.Reports.FirstDates![i].ToString("dd-MM-yy")</td>
+                    <td class="index-data-row">@Model.Reports.LastDates![i].ToString("dd-MM-yy")</td>
+                    <td class="index-data-row">@Html.DisplayFor(Model => Model.Reports.ExerciceTypes![i].Reps)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

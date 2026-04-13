@@ -1,0 +1,56 @@
+﻿@page
+@model ExerciceLogger.Pages.UpdateModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div><h4>Edit Record</h4></div>
+
+<div class=" row">
+    <form method="post">
+        <input type="hidden" asp-for="Exercice.Id" />
+        <table>
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(Model => Model.Exercice!.Type)</th>
+                    <th>@Html.DisplayNameFor(Model => Model.Exercice!.Date)</th>
+                    <th>@Html.DisplayNameFor(Model => Model.Exercice!.Reps)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="me-2">
+                        <input asp-for="Exercice.Type" autocomplete="off" list="exerciceTypeOptions" id="exerciceType" />
+                        <datalist id="exerciceTypeOptions">
+                            @foreach (string type in Model.ExerciceTypes)
+                            {
+                                <option value="@type">@type</option>
+                            }
+                        </datalist>
+                    </td>
+                    <td class="me-2">
+                        <input type="date" asp-for="@Model.Exercice!.Date" class="form-control" value="@Model.Exercice!.Date.ToString("yyyy-MM-dd")" max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    </td class="me-3">
+                    <td>
+                        <input type="number" asp-for="Exercice.Reps" class="form-control" min="0" max="@int.MaxValue" />
+                    </td>
+                    <td>
+                        <input type="submit" class="btn btn-success" value="Edit"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span asp-validation-for="Exercice.Type" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <span asp-validation-for="Exercice.Date" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <span asp-validation-for="Exercice.Reps" class="text-danger"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>

@@ -1,0 +1,30 @@
+﻿@page 
+@model WaterLogger.Pages.CreateModel
+@{
+    ViewData["Title"] = "Add Record";
+}
+
+<h4>Add Record</h4>
+<hr/>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <label class="control-label" asp-for="DrinkingWater.Date"></label>
+                <input class="from-control" type="date" asp-for="DrinkingWater.Date" value="@Model.DrinkingWater!.Date.ToString("yyyy-MM-dd")" max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="DrinkingWater.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-laber" asp-for="DrinkingWater.Quantity"></label>
+                <input class="form-control" type="number" asp-for="DrinkingWater.Quantity" min="0" max="@Int32.MaxValue"/>
+                <span asp-validation-for="DrinkingWater.Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+    <div>
+        <a asp-page="./Index">Back to list</a>
+    </div>
+</div>
