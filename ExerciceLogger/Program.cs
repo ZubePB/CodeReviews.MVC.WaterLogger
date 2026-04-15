@@ -37,7 +37,7 @@ namespace ExerciceLogger
             services.AddMemoryCache();
             services.AddMvc();
         }
-        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
             app.UseSession();

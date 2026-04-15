@@ -4,6 +4,9 @@
     ViewData["Title"] = "Edit";
 }
 
+@try{
+    @if (Model.Exercice == null)
+        throw (new Exception("Can't reach the database or the data might not be retrieved from it. Verify that the database and the table exists, and the connection settings."));
 <div><h4>Edit Record</h4></div>
 
 <div class=" row">
@@ -53,4 +56,9 @@
             </tbody>
         </table>
     </form>
-</div>
+    </div>
+}
+catch(Exception ex)
+{
+    <p><strong>An error occured: </strong> @ex.Message</p>
+}

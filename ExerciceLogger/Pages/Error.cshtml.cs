@@ -10,9 +10,11 @@ namespace ExerciceLogger.Pages
     {
         public string? RequestId { get; set; }
 
+        public string? ErrorMessage { get; set; }
+
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        private readonly ILogger<ErrorModel> _logger;
+        private readonly ILogger<ErrorModel>? _logger;
 
         public ErrorModel(ILogger<ErrorModel> logger)
         {

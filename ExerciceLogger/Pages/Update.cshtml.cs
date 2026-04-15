@@ -10,39 +10,52 @@ namespace ExerciceLogger.Pages
     {
         private readonly IConfiguration _configuration;
 
-        public List<string> ExerciceTypes { get; set; }
+        public List<string>? ExerciceTypes { get; set; }
 
         [BindProperty]
-        public Exercice Exercice { get; set; }
+        public Exercice? Exercice { get; set; }
 
         public UpdateModel(IConfiguration configuration) => _configuration = configuration;
 
         public void OnGet(int id)
         {
-            ExerciceTypes = GetExerciceTypes();
-            Exercice = GetExercice(id);
+            try
+            { 
+                ExerciceTypes = GetExerciceTypes();
+                Exercice = GetExercice(id);
+            }
+            catch
+            {
+                ExerciceTypes = null;
+                Exercice = null;
+            }
+
         }
 
         public IActionResult OnPost()
         {
             if (ModelState.IsValid)
             {
-                using(SqliteConnection connection = new(_configuration.GetConnectionString("ConnectionString")))
+                try
                 {
-                    connection.Open();
-                    SqliteCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = $"UPDATE Exercices SET Type = '{Exercice.Type}',Date = '{Exercice.Date.ToString("dd-MM-yyyy")}',Reps = {Exercice.Reps} WHERE Id = {Exercice.Id}";
-                    cmd.ExecuteNonQuery();
-                    connection.Close();
+                    using (SqliteConnection connection = new(_configuration.GetConnectionString("ConnectionString")))
+                    {
+                        connection.Open();
+                        SqliteCommand cmd = connection.CreateCommand();
+                        cmd.CommandText = $"UPDATE Exercices SET Type = '{Exercice.Type}',Date = '{Exercice.Date.ToString("dd-MM-yyyy")}',Reps = {Exercice.Reps} WHERE Id = {Exercice.Id}";
+                        cmd.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                    return RedirectToPage("./Index");
                 }
-                return RedirectToPage("./Index");
+                catch { return RedirectToPage("/Error"); }
             }
             return Page();
         }
 
         private Exercice GetExercice(int id)
         {
-            using(SqliteConnection connection = new(_configuration.GetConnectionString("ConnectionString")))
+            using (SqliteConnection connection = new(_configuration.GetConnectionString("ConnectionString")))
             {
                 connection.Open();
                 SqliteCommand cmd = connection.CreateCommand();
@@ -51,7 +64,10 @@ namespace ExerciceLogger.Pages
                 reader.Read();
                 Exercice ex = new Exercice
                 {
-                    Id = id, Type = reader.GetString(1), Date = DateTime.Parse(reader.GetString(2),CultureInfo.CurrentUICulture), Reps = reader.GetInt32(3),
+                    Id = id,
+                    Type = reader.GetString(1),
+                    Date = DateTime.Parse(reader.GetString(2), CultureInfo.CurrentUICulture),
+                    Reps = reader.GetInt32(3),
                 };
                 reader.Close();
                 connection.Close();

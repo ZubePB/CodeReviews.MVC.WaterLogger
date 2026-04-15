@@ -2,7 +2,7 @@
 @model ExerciceLogger.Pages.ReportsModel
 @{
 }
-
+@try{
 <div>
     <h1>Exercice Reports</h1>
 </div>
@@ -29,4 +29,9 @@
             }
         </tbody>
     </table>
-</div>
+    </div>
+}
+catch(Exception ex)
+{
+    <p><strong>An error occured: </strong>@ex.Message</p>
+}

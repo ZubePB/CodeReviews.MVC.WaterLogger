@@ -1,4 +1,5 @@
 using ExerciceLogger.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.Sqlite;
 using System.Globalization;
@@ -11,16 +12,21 @@ public class ReportsModel : PageModel
     public Report Reports { get; set; }
     public ReportsModel(IConfiguration configuration) => _configuration = configuration;
 
-    public void OnGet()
+    public IActionResult OnGet()
     {
-        Reports = GetReports();
-        ViewData["Title"] = "Reports";
+        try
+        {
+            Reports = GetReports();
+            ViewData["Title"] = "Reports";
+            return Page();
+        }
+        catch { return RedirectToPage("/Error"); }
     }
 
     private Report GetReports()
     {
         Report reports = new();
-        List<Exercice> allExercices = GetAllExercices();
+        List<Exercice>? allExercices = GetAllExercices();
         if (allExercices != null)
         {
             reports.ExerciceTypes = allExercices?.DistinctBy(x => x.Type).ToList();

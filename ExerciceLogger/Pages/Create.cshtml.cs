@@ -24,20 +24,23 @@ public class CreateModel : PageModel
     private List<string> GetExerciceTypes()
     {
         List<string> types = [];
-        using(SqliteConnection connection = new(_configuration.GetConnectionString("ConnectionString")))
+        try
         {
-            connection.Open();
-            SqliteCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "SELECT * FROM Exercices GROUP BY Type";
-            SqliteDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (SqliteConnection connection = new(_configuration.GetConnectionString("ConnectionString")))
             {
-                types.Add(reader.GetString(1));
+                connection.Open();
+                SqliteCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT * FROM Exercices GROUP BY Type";
+                SqliteDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    types.Add(reader.GetString(1));
+                }
+                reader.Close();
+                connection.Close();
+                return types;
             }
-            reader.Close();
-            connection.Close();
-            return types;
-        }
+        } catch { return types; }
     }
 
     public IActionResult OnPost()

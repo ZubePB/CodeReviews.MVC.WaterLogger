@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "New Exercice";
 }
-
+@try{
 <div>
     <h3>Add a New Exercice</h3>
 </div>
@@ -54,6 +54,12 @@
         </table>
     </form>
 </div>
+}
+catch(Exception ex)
+{
+    <p><strong>An error occured: </strong> @ex.Message</p>
+}
+
 
 @section Scripts {
     @{
